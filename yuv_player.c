@@ -62,11 +62,11 @@ int play_yuv(char *in_filename,
     
     uint32_t pixformat = 0;
     
-    SDL_Window *window;
-    SDL_Renderer *renderer;
-    SDL_Texture *texture;
+    SDL_Window *window = NULL;
+    SDL_Renderer *renderer = NULL;
+    SDL_Texture *texture = NULL;
     SDL_Rect rect;
-    SDL_Thread *sdl_thread;
+    SDL_Thread *sdl_thread = NULL;
     
     yuv_frame_len = v_width * v_height * 12 / 8;//yuv420
     
@@ -178,6 +178,16 @@ int play_yuv(char *in_filename,
     is_renderer_begin = 0;
     
 __exit:
+    SDL_Quit();
+    if (window) {
+        SDL_DestroyWindow(window);
+    }
+    if (renderer) {
+        SDL_DestroyRenderer(renderer);
+    }
+    if (texture) {
+        SDL_DestroyTexture(texture);
+    }
     if (f) {
         fclose(f);
     }
